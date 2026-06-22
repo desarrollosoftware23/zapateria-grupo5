@@ -14,6 +14,8 @@ venv/
 !zapatos_extension/**
 !zapatos_pedido_proveedor/
 !zapatos_pedido_proveedor/**
+!zapatos_ventas/
+!zapatos_ventas/**
 **/_pycache_/
 *.pyc
 *.pyo
