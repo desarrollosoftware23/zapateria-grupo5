@@ -23,21 +23,28 @@
         <field name="arch" type="xml">
             <form string="Venta de Zapatos">
                 <sheet>
-                    <group>
-                        <field name="name"/>
-                        <field name="producto_id"/>
-                        <field name="stock_disponible" readonly="1"/>
-                        <field name="cantidad_vendida"/>
-                        <field name="precio_unitario"/>
-                        <field name="total_venta" readonly="1"/>
+
+                    <group string="Información de la venta">
+                        <group>
+                            <field name="name"/>
+                            <field name="producto_id"/>
+                            <field name="stock_disponible" readonly="1"/>
+                            <field name="cantidad_vendida"/>
+                        </group>
+
+                        <group>
+                            <field name="precio_unitario"/>
+                            <field name="total_venta" readonly="1"/>
+                            <field name="fecha_venta"/>
+                            <field name="metodo_pago"/>
+                            <field name="estado_venta"/>
+                        </group>
                     </group>
 
-                    <group>
-                        <field name="fecha_venta"/>
-                        <field name="metodo_pago"/>
-                        <field name="estado_venta"/>
-                        <field name="observacion"/>
+                    <group string="Observación">
+                        <field name="observacion" placeholder="Escribe una observación de la venta..."/>
                     </group>
+
                 </sheet>
             </form>
         </field>
@@ -49,14 +56,10 @@
         <field name="view_mode">list,form</field>
     </record>
 
-    <menuitem id="menu_ventas_zapatos_root"
-              name="Ventas de Zapatos"
-              sequence="20"/>
-
     <menuitem id="menu_ventas_zapatos"
               name="Ventas"
-              parent="menu_ventas_zapatos_root"
-              inherit="action_zapatos_zapato"
-              sequence="1"/>
+              parent="zapatos.menu_zapatos_root"
+              action="action_zapatos_venta"
+              sequence="20"/>
 
 </odoo>
