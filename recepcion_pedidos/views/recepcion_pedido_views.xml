@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vista de formulario: pantalla principal para crear o editar un pedido -->
+    <record id="view_recepcion_pedido_form" model="ir.ui.view">
+        <field _name="recepcion.pedido">recepcion.pedido.form</field>
+        <field _name="model">recepcion.pedido</field>
+        <field _name="arch" type="xml">
+            <form string="Recepción de Pedido">
+                <header>
+                    <!-- Botones que disparan las transiciones de estado -->
+                    <button name="accion_recibir" string="Marcar como recibido"
+                            type="object" class="btn-primary"
+                            states="borrador"/>
+                    <button name="accion_verificar" string="Verificar"
+                            type="object" class="btn-primary"
+                            states="recibido"/>
+                    <button name="accion_completar" string="Completar"
+                            type="object" class="btn-primary"
+                            states="verificado"/>
+                    <button name="accion_borrador" string="Regresar a borrador"
+                            type="object"
+                            states="recibido,verificado"/>
+                    <button name="accion_cancelar" string="Cancelar"
+                            type="object"
+                            states="borrador,recibido,verificado"/>
+                    <!-- Barra que muestra en qué etapa va el pedido -->
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="borrador,recibido,verificado,completado"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="responsable_id"/>
+                        </group>
+                        <group>
+                            <field name="fecha_pedido"/>
+                            <field name="fecha_recepcion"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Líneas del pedido">
+                            <field name="linea_ids">
+                                <tree editable="bottom">
+                                    <field name="producto_id"/>
+                                    <field name="cantidad_pedida"/>
+                                    <field name="cantidad_recibida"/>
+                                    <field name="diferencia" readonly="1"/>
+                                    <field name="precio_unitario"/>
+                                    <field name="subtotal" readonly="1"/>
+                                </tree>
+                            </field>
+                            <group class="oe_subtotal_footer">
+                                <field name="total"/>
+                            </group>
+                        </page>
+                        <page string="Observaciones">
+                            <field name="notas"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista de lista: muestra todos los pedidos en forma de tabla -->
+    <record id="view_recepcion_pedido_tree" model="ir.ui.view">
+        <field name="name">recepcion.pedido.tree</field>
+        <field name="model">recepcion.pedido</field>
+        <field name="arch" type="xml">
+            <tree string="Recepciones">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="fecha_pedido"/>
+                <field name="fecha_recepcion"/>
+                <field name="responsable_id"/>
+                <field name="total" sum="Total"/>
+                <field name="state"
+                       decoration-info="state == 'borrador'"
+                       decoration-warning="state == 'recibido'"
+                       decoration-success="state == 'completado'"
+                       decoration-danger="state == 'cancelado'"
+                       widget="badge"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vista de búsqueda: filtros y agrupaciones para localizar pedidos -->
+    <record id="view_recepcion_pedido_search" model="ir.ui.view">
+        <field name="name">recepcion.pedido.search</field>
+        <field name="model">recepcion.pedido</field>
+        <field name="arch" type="xml">
+            <search string="Buscar pedidos">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <filter name="filtro_borrador" string="En borrador"
+                        domain="[('state', '=', 'borrador')]"/>
+                <filter name="filtro_completado" string="Completados"
+                        domain="[('state', '=', 'completado')]"/>
+                <group expand="0" string="Agrupar por">
+                    <filter name="group_partner" string="Cliente / Proveedor"
+                            context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_state" string="Estado"
+                            context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Acción que abre las vistas anteriores desde el menú -->
+    <record id="action_recepcion_pedido" model="ir.actions.act_window">
+        <field name="name">Recepción de Pedidos</field>
+        <field name="res_model">recepcion.pedido</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_recepcion_pedido_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Registre su primera recepción de pedido
+            </p>
+        </field>
+    </record>
+
+</odoo>
