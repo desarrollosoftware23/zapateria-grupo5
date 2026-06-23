@@ -22,7 +22,7 @@ class Proveedor(models.Model):
         required=True
     )
 
-    ruc = fields.Integer(
+    ruc = fields.Char(
         string='RUC',
         required=True
     )
@@ -51,7 +51,7 @@ class Proveedor(models.Model):
         required=True
     )
 
-    telefono = fields.Integer(
+    telefono = fields.Char(
         string='Teléfono',
         required=True
     )
@@ -72,6 +72,24 @@ class Proveedor(models.Model):
     direccion = fields.Text(
         string='Dirección'
     )
+
+    @api.constrains('ruc')
+    def _check_ruc(self):
+        for record in self:
+            if record.ruc:
+                if not re.match(r'^\d{13}$', record.ruc):
+                    raise ValidationError(
+                        'El RUC debe contener exactamente 13 dígitos numéricos.'
+                    )
+
+    @api.constrains('correo')
+    def _check_correo(self):
+        for record in self:
+            if record.correo:
+                if not re.match(r'^[^@\s]+@[^@\s]+\.[^@\s]+$', record.correo):
+                    raise ValidationError(
+                        'El correo electrónico no tiene un formato válido.'
+                    )
 
     @api.model
     def create(self, vals):
