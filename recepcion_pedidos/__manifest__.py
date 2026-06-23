@@ -11,9 +11,11 @@ cantidades pedidas contra las recibidas y calcular el total de forma automática
     """,
     'author': 'Grupo - Universidad UTE',
     'category': 'Inventory',
-    # Dependemos de 'base' para las funciones generales y de 'product'
-    # porque cada línea del pedido referencia un producto del catálogo
-    'depends': ['base', 'product'],
+    # Dependemos del módulo padre 'zapatos' porque cada línea del pedido
+    # referencia un zapato del catálogo definido ahí (zapatos.zapato).
+    # Al depender de 'zapatos' ya no es necesario declarar 'product' ni 'base'
+    # por separado, porque 'zapatos' ya los trae como dependencia.
+    'depends': ['zapatos'],
     # El orden de carga importa: primero la seguridad, luego los datos y al final las vistas
     'data': [
         'security/ir.model.access.csv',
@@ -22,6 +24,7 @@ cantidades pedidas contra las recibidas y calcular el total de forma automática
         'views/menu_views.xml',
     ],
     'installable': True,
-    'application': True,
+    # No es una aplicación independiente: es una extensión de la app "Zapatos"
+    'application': False,
     'license': 'LGPL-3',
 }

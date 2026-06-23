@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- Menú raíz que aparece en la barra superior de Odoo -->
-    <menuitem id="menu_recepcion_root"
-              name="Recepción de Pedidos"
-              sequence="10"/>
-
-    <!-- Submenú que ejecuta la acción y abre la lista de pedidos -->
+    <!-- Submenú que ejecuta la acción y abre la lista de pedidos, colgado del
+         menú raíz de la app "Zapatos" definido en el módulo padre -->
     <menuitem id="menu_recepcion_pedido"
-              name="Pedidos"
-              parent="menu_recepcion_root"
+              name="Recepción de Pedidos"
+              parent="zapatos.menu_zapatos_root"
               action="action_recepcion_pedido"
-              sequence="10"/>
+              sequence="30"/>
 
 </odoo>

@@ -3,8 +3,8 @@
 
     <!-- Vista de formulario: pantalla principal para crear o editar un pedido -->
     <record id="view_recepcion_pedido_form" model="ir.ui.view">
-        <field _name="recepcion.pedido">recepcion.pedido.form</field>
-        <field _name="model">recepcion.pedido</field>
+        <field name="name">recepcion.pedido.form</field>
+        <field name="model">recepcion.pedido</field>
         <field _name="arch" type="xml">
             <form string="Recepción de Pedido">
                 <header>
@@ -48,7 +48,7 @@
                         <page string="Líneas del pedido">
                             <field name="linea_ids">
                                 <tree editable="bottom">
-                                    <field name="producto_id"/>
+                                    <field name="zapato_id"/>
                                     <field name="cantidad_pedida"/>
                                     <field name="cantidad_recibida"/>
                                     <field name="diferencia" readonly="1"/>

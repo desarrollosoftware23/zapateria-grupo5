@@ -120,10 +120,10 @@ class RecepcionPedidoLinea(models.Model):
         required=True,
         ondelete='cascade',
     )
-    # Producto que se está recibiendo
-    producto_id = fields.Many2one(
-        'product.product',
-        string='Producto',
+    # Zapato que se está recibiendo (modelo del módulo padre 'zapatos')
+    zapato_id = fields.Many2one(
+        'zapatos.zapato',
+        string='Zapato',
         required=True,
     )
     # Cantidad que se solicitó originalmente
@@ -163,8 +163,8 @@ class RecepcionPedidoLinea(models.Model):
         for linea in self:
             linea.diferencia = linea.cantidad_pedida - linea.cantidad_recibida
 
-    @api.onchange('producto_id')
-    def _onchange_producto(self):
-        # Al elegir un producto traemos su precio de venta como valor sugerido
-        if self.producto_id:
-            self.precio_unitario = self.producto_id.lst_price
+    @api.onchange('zapato_id')
+    def _onchange_zapato(self):
+        # Al elegir un zapato traemos su precio del catálogo como valor sugerido
+        if self.zapato_id:
+            self.precio_unitario = self.zapato_id.precio
