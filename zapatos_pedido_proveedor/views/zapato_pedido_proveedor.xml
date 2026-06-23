@@ -1,0 +1,154 @@
+<odoo>
+
+    <record id="seq_pedido_proveedor" model="ir.sequence">
+        <field name="name">pedido.proveedor.zapatos</field>
+        <field name="code">zapatos.pedido.proveedor</field>
+        <field name="prefix">FAC-</field>
+        <field name="padding">4</field>
+    </record>
+
+    <!-- formulario -->
+    <record id="view_pedido_proveedor_form" model="ir.ui.view">
+        <field name="name">zapatos.pedido.proveedor.form</field>
+        <field name="model">zapatos.pedido.proveedor</field>
+        <field name="arch" type="xml">
+            <form>
+
+                <header>
+                    <button name="action_enviar"
+                        string="Marcar como enviado"
+                        type="object"
+                        invisible="estado != 'pendiente'"/>
+                    <button name="action_recibir"
+                        string="Marcar como recibido"
+                        type="object"
+                        invisible="estado != 'enviado'"/>
+                    <button name="action_cancelar"
+                        string="Cancelar"
+                        type="object"
+                        invisible="estado in ('recibido', 'cancelado')"/>
+                    <button name="action_restablecer"
+                        string="Restablecer"
+                        type="object"
+                        invisible="estado != 'cancelado'"/>
+                    <field name="estado" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Información del pedido">
+                            <field name="name" readonly="1"/>
+                            <field name="fecha"/>
+                            <field name="estado" readonly="1"/>
+                        </group>
+                    </group>
+                <notebook>
+
+                    <page string="Proveedor y producto">
+                        <group>
+                            <field name="proveedor_id"/>
+                            <field name="zapato_id"/>
+                            <field name="cantidad"/>
+                        </group>
+                    </page>
+
+                <page string="Observación">
+                    <group>
+                        <field name="tipo_observacion"/>
+
+                        <field
+                            name="observacion"
+                            placeholder="Máximo 20 caracteres. Seleccione un tipo si agrega contenido."/>
+                    </group>
+                </page>
+
+                </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- vista de la lista -->
+    <record id="view_pedido_proveedor_list" model="ir.ui.view">
+        <field name="name">zapatos.pedido.proveedor.list</field>
+        <field name="model">zapatos.pedido.proveedor</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="proveedor_id"/>
+                <field name="zapato_id"/>
+                <field name="cantidad"/>
+                <field name="fecha"/>
+                <field name="estado" widget="badge"
+                    decoration-warning="estado == 'pendiente'"
+                    decoration-info="estado == 'enviado'"
+                    decoration-success="estado == 'recibido'"
+                    decoration-danger="estado == 'cancelado'"/>
+                <field name="tipo_observacion" widget='badge'
+                    decoration-info="tipo_observacion == 'info'"
+                    decoration-danger="tipo_observacion == 'damage'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- vista filtros -->
+    <record id="view_pedido_proveedor_search" model="ir.ui.view">
+        <field name="name">zapatos.pedido.proveedor.search</field>
+        <field name="model">zapatos.pedido.proveedor</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name='name'/>
+                <field name="proveedor_id"/>
+                <searchpanel>
+                    <field name="zapato_id"/>
+                </searchpanel>
+                    <filter name="pendiente" 
+                        string="Paquetes Pendientes"
+                        domain="[('estado','=','pendiente')]"/>
+                    <separator/>
+                    <filter name="enviado" 
+                        string="Paquetes Enviados"
+                        domain="[('estado','=','enviado')]"/>
+                    <filter name="recibido" 
+                        string="Paquetes Recibidos"
+                        domain="[('estado','=','recibido')]"/>
+
+                    <separator/>
+                    <filter name='observacion_damage'
+                        string= " Observación dañados / perdidos"
+                        domain="[('tipo_observacion','=','damage')]"
+                            />
+                    <filter name='observacion_info'
+                        string= " Observación informativo"
+                        domain="[('tipo_observacion','=','info')]"
+                            />
+                    <group string="Agrupar por">
+                        <filter name="group_proveedor" 
+                            string="Proveedor"
+                            context="{'group_by': 'proveedor_id'}"/>
+                        <filter name="group_estado"
+                            string="Estado"
+                            context="{'group_by': 'estado'}"/>
+                        <filter name="group_fecha" 
+                            string="Fecha"
+                            context="{'group_by': 'fecha'}"/>
+                    </group>
+
+            </search>
+        </field>
+    </record>
+
+    <!-- lista y formulario -->
+    <record id="action_pedido_proveedor" model="ir.actions.act_window">
+        <field name="name">Formulario Pedido</field>
+        <field name="res_model">zapatos.pedido.proveedor</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- menu -->
+    <menuitem id="menu_zapatos_pedidos_proveedor"
+    name="Pedidos a Proveedor"
+    parent="zapatos.menu_zapatos_root"
+    action="action_pedido_proveedor"
+    sequence="10"/>
+
+</odoo>

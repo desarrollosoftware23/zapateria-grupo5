@@ -1,0 +1,65 @@
+<odoo>
+
+    <record id="view_zapatos_venta_list" model="ir.ui.view">
+        <field name="name">zapatos.ventas.list</field>
+        <field name="model">zapatos.ventas</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="producto_id"/>
+                <field name="cantidad_vendida"/>
+                <field name="precio_unitario"/>
+                <field name="total_venta"/>
+                <field name="fecha_venta"/>
+                <field name="metodo_pago"/>
+                <field name="estado_venta"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_zapatos_venta_form" model="ir.ui.view">
+        <field name="name">zapatos.ventas.form</field>
+        <field name="model">zapatos.ventas</field>
+        <field name="arch" type="xml">
+            <form string="Venta de Zapatos">
+                <sheet>
+
+                    <group string="Información de la venta">
+                        <group>
+                            <field name="name"/>
+                            <field name="producto_id"/>
+                            <field name="stock_disponible" readonly="1"/>
+                            <field name="cantidad_vendida"/>
+                        </group>
+
+                        <group>
+                            <field name="precio_unitario"/>
+                            <field name="total_venta" readonly="1"/>
+                            <field name="fecha_venta"/>
+                            <field name="metodo_pago"/>
+                            <field name="estado_venta"/>
+                        </group>
+                    </group>
+
+                    <group string="Observación">
+                        <field name="observacion" placeholder="Escribe una observación de la venta..."/>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_zapatos_venta" model="ir.actions.act_window">
+        <field name="name">Ventas</field>
+        <field name="res_model">zapatos.ventas</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_ventas_zapatos"
+              name="Ventas"
+              parent="zapatos.menu_zapatos_root"
+              action="action_zapatos_venta"
+              sequence="20"/>
+
+</odoo>
