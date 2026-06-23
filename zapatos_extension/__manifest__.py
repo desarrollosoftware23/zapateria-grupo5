@@ -9,9 +9,7 @@
     'depends': ['zapatos'],
     'data': [
         
-        'security/ir.model.access.csv',
         'views/zapato_extension_views.xml',
-        'views/proveedor_views.xml',
 
     ],
     'installable': True,

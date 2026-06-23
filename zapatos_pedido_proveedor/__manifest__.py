@@ -6,7 +6,7 @@
     'author': 'Alejo',
     'category': 'Inventory',
     'license': 'LGPL-3',
-    'depends': ['zapatos', 'zapatos_extension'],
+    'depends': ['zapatos', 'zapatos_proveedores'],
     'data': [
         'security/ir.model.access.csv',
         'views/zapato_pedido_proveedor.xml',
