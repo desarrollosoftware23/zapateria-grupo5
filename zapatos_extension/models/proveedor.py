@@ -22,7 +22,7 @@ class Proveedor(models.Model):
         required=True
     )
 
-    ruc = fields.Interger(
+    ruc = fields.Integer(
         string='RUC',
         required=True
     )
@@ -51,7 +51,7 @@ class Proveedor(models.Model):
         required=True
     )
 
-    telefono = fields.Interger(
+    telefono = fields.Integer(
         string='Teléfono',
         required=True
     )
