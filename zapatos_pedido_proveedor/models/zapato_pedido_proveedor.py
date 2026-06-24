@@ -18,6 +18,8 @@ class ZapatoPedidoProveedor(models.Model):
         'zapatos.zapato', string='Zapato solicitado',
         required=True)
     
+    razon_social = fields.Char(related='proveedor_id.razon_social',string='Nombre asociado',store=True)
+    
     cantidad = fields.Integer(
         string='Cantidad solicitada',
         default=0,

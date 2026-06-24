@@ -46,8 +46,10 @@
                     <page string="Proveedor y producto">
                         <group>
                             <field name="proveedor_id"/>
+                            <field name="razon_social"/>
                             <field name="zapato_id"/>
                             <field name="cantidad"/>
+                            
                         </group>
                     </page>
 
